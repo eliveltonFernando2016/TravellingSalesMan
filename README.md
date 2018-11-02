@@ -18,7 +18,7 @@ O seguinte trabalho faz parte de uma das atividades da disciplina de Inteligênc
 
 A linguagem de programação escolhida para implementação foi o Python por motivos de afinidade e nível de complexidade. O trabalho está organizado basicamente em duas pastas, a pasta raiz contém toda a implementação do algoritmo, dentro desta há também uma pasta chamada Testes, nela se encontra alguns conjuntos de entradas possível para executar o algoritmo.
 
-O conjunto de testes foi retirado da TSPLIB que é uma grande coleção de vários conjuntos de dados usados para avaliar algoritmos que visam resolver o TSP. O link para esta coleção é: https://typo.iwr.uni-heidelberg.de/groups/comopt/groups/comopt/software/TSPLIB95/tsp/
+O conjunto de testes foi retirado da TSPLIB que é uma grande coleção de vários conjuntos de dados usados para avaliar algoritmos que visam resolver o TSP. O link para esta coleção é:  https://typo.iwr.uni-heidelberg.de/groups/comopt/groups/comopt/software/TSPLIB95/tsp/
 
 ### Execução
 A execução deste trabalho pode ser realizada primeiramente com o clone deste repositório para seu computador. Depois disto é necessário verificar algumas dependências que são elas:
