@@ -18,4 +18,10 @@ if __name__ == '__main__':
     pop = gen_pop(noDimensao[0], 100)
 
     # Definição dos parametros na definicao da funçao
-    best = algoritmo_genetico(pop_inicial = pop, f = fitness, matriz_dist = matriz, k = 50, tx_mutacao = 10, elitismo = 1, reproducao = "ordenado", tipo_mutacao = 1)
+    # SEM ELITISMO ATIVO !
+    #best = algoritmo_genetico(pop_inicial = pop, f = fitness, matriz_dist = matriz, k = 50, tx_mutacao = 10, elitismo = True , reproducao = "ordenado", tipo_mutacao = 1)
+    
+    # Definição dos parametros na definicao da funçao
+    # COM ELITISMO ATIVO !
+    best = algoritmo_genetico(pop_inicial = pop, f = fitness, matriz_dist = matriz, k = 50, tx_mutacao = 10, elitismo = False, reproducao = "ordenado", tipo_mutacao = 1)
+    

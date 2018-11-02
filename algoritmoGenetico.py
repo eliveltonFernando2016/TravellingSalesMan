@@ -8,7 +8,11 @@ import random
 import copy
 import functools
 import matplotlib.pyplot as plt
-from crossoverordenado import crossover_ordenado
+from crossover_ordenado import crossover_ordenado
+from crossover_alternativo import crossover_alternativo
+from mutacao_1 import mutar_v1
+from mutacao_2 import mutar_v2
+
 
 # DISTANCIA EUCLIDIANA ENTRE DOIS PONTOS
 def dist_euclid(x1, y1, x2, y2):
@@ -86,14 +90,7 @@ def selecionar_individuo(pop, f, matriz_dist):
 
 
 # REPRODUCAO DE UM INDIVIDUO
-def crossover_alternativo(pai, mae):
-    filho = copy.copy(pai)
-    corte = random.randrange(1, len(pai)-1)
-    for i in range(corte, len(pai)):
-        if (pai[i] not in mae[0:i]) and (mae[i] not in pai[0:i]):
-            filho[i] = mae[i]
 
-    return filho
 
 # Função reproduzir
 def reproduzir(pai, mae):
@@ -110,40 +107,6 @@ def reproduzir(pai, mae):
     return filho1, filho2
 
 
-# MUTACAO DE UM INDIVIDUO COM 2 GENES
-def mutar_v1(individuo):
-    individuo_mutado = copy.copy(individuo)
-
-    # Gerar uma lista com 4 numeros aleatorios nao repetidos entre 0 e o tamanho do individuo
-    count = 0
-    randomicos = []
-    while count != 4:
-        temp = random.randint(0, len(individuo_mutado)-1)
-        if temp not in randomicos:
-            randomicos.append(temp)
-            count += 1
-
-    # Trocar a posicao dos genes
-    individuo_mutado[randomicos[0]], individuo_mutado[randomicos[1]] = individuo_mutado[randomicos[1]], individuo_mutado[randomicos[0]]
-    individuo_mutado[randomicos[2]], individuo_mutado[randomicos[3]] = individuo_mutado[randomicos[3]], individuo_mutado[randomicos[2]]
-
-    return individuo_mutado
-
-
-# MUTACAO DE UM INDIVIDUO COM 1 GENE
-def mutar_v2(individuo):
-    individuo_mutado = copy.copy(individuo)
-    # Return a random integer N such that a <= N <= b
-    x = random.randint(0, len(individuo_mutado)-1)
-    y = random.randint(0, len(individuo_mutado)-1)
-
-    # Troca a posicao entre dois individuos
-    temp = individuo_mutado[x]
-    individuo_mutado[x] = individuo_mutado[y]
-    individuo_mutado[y] = temp
-
-    return individuo_mutado
-
 # Pega o indice do menor elemento do vetor
 def argmin(V):
     menor = 0
@@ -152,7 +115,7 @@ def argmin(V):
             menor = i
     return menor
 
-# Para executar o algoritmo com elitismo passar 1, caso contrário 0.
+# elitismo recebe True ou False para ativar ou desativar respectivamente
 # k é a quantidade de geracoes que o algoritmo é executado sem melhora no fit
 # tx_mutacao é a probabilidade em porcentagem do individuo receber uma mutação
 # reproducao é o tipo de reproducao escolhida, crossover_ordernado = ordenado, crossover_alternativo = qualquer coisa diferente de ordenado.
@@ -204,7 +167,7 @@ def algoritmo_genetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, rep
         pop = p_nova
 
         # Se há elitismo:
-        if(elitismo == 1):
+        if(elitismo == True):
             pop.append(mais_fit)
 
         # Calcula o fitness de todos os individuos da população e coloca em uma lista
