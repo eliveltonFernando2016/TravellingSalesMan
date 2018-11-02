@@ -149,7 +149,7 @@ def algoritmo_genetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, rep
             else:
                 novo = crossover_alternativo(x, y)
 
-            r = random.randrange(0, 100)
+            r = random.randrange(0, len(pop_inicial))
             if r < tx_mutacao:
                 if(tipo_mutacao == 1):
                     novo = mutar_v1(novo)

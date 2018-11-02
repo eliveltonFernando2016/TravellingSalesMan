@@ -15,13 +15,7 @@ if __name__ == '__main__':
     noDimensao = parser(argv[1])
 
     matriz = cria_matriz_de_distancia(noDimensao[0], noDimensao[1])
-    pop = gen_pop(noDimensao[0], 100)
+    pop = gen_pop(noDimensao[0], noDimensao[1])
 
     # Definição dos parametros na definicao da funçao
-    # SEM ELITISMO ATIVO !
-    #best = algoritmo_genetico(pop_inicial = pop, f = fitness, matriz_dist = matriz, k = 50, tx_mutacao = 10, elitismo = True , reproducao = "ordenado", tipo_mutacao = 1)
-    
-    # Definição dos parametros na definicao da funçao
-    # COM ELITISMO ATIVO !
-    best = algoritmo_genetico(pop_inicial = pop, f = fitness, matriz_dist = matriz, k = 50, tx_mutacao = 10, elitismo = False, reproducao = "ordenado", tipo_mutacao = 1)
-    
+    best = algoritmo_genetico(pop_inicial = pop, f = fitness, matriz_dist = matriz, k = 100, tx_mutacao = 10, elitismo = 1, reproducao = "ordenado", tipo_mutacao = 1)
