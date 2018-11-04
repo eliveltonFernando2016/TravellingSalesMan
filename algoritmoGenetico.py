@@ -12,6 +12,7 @@ from crossover_ordenado import crossover_ordenado
 from crossover_alternativo import crossover_alternativo
 from mutacao_1 import mutar_v1
 from mutacao_2 import mutar_v2
+from datetime import datetime
 
 
 # DISTANCIA EUCLIDIANA ENTRE DOIS PONTOS
@@ -186,14 +187,16 @@ def algoritmo_genetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, rep
             # Se nao houve melhora no mais fit entao acrescenta 1 no contador de geracao
             geracao += 1
 
+    now = datetime.now()
     a = f(melhor_solucao, matriz_dist)
     print("Melhor Solucao: ", melhor_solucao, "\n")
     print("Custo da melhor solucao: ", a, "\n")
-    #plt.figure()
-    #plt.plot(max_fits, label='Fitness minimo')
-    #plt.plot(med_fits, label='Fitness medio')
-    #plt.legend()
-    #plt.ylabel('Fitness')
-    #plt.xlabel('Geracoes')
+    plt.figure()
+    plt.plot(max_fits, label='Fitness minimo')
+    plt.plot(med_fits, label='Fitness medio')
+    plt.legend()
+    plt.ylabel('Fitness')
+    plt.xlabel('Geracoes')
     #plt.show()
+    plt.savefig(str(now.day)+'---'+str(now.hour)+'-'+str(now.minute)+'-'+str(now.second))
     return melhor_solucao
