@@ -1,0 +1,19 @@
+Algumas bibliotecas de terceiros devem ser instaladas para a execução plena do trabalho, segue abaixo os comandos para instalação de cada uma.
+
+Numpy
+
+$ pip install -U numpy
+
+Pandas
+
+$ pip install -U pandas
+
+Matplotlib.pyplot
+
+$ pip install -U matplotlib
+
+Assim que todo o ambiente estiver preparado podemos executar o trabalho e realizar alguns testes, abaixo segue um exemplo de como deve ser feita a execução e os devidos parâmetros.
+
+$ python main.py u1432.tsp
+
+Para alteração de taxa de mutação, tipo de reprodução, alteração no numero de K, tipo de mutação, e elitismo devera ser alterados na linha 21 do main.py. K pode ser qualquer numero inteiro, tipo de reprodução é indicado por "ordenado", ou qualquer coisa diferente disso, o programa ira utilizar a reprodução alternativa, tipo de mutação "1" ou qualquer coisa diferente de 1, o programa ira rodar com tipo de mutação 2.
