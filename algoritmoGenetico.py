@@ -8,21 +8,19 @@ import random
 import copy
 import functools
 import matplotlib.pyplot as plt
-from crossover_ordenado import crossover_ordenado
-from crossover_alternativo import crossover_alternativo
-from mutacao_1 import mutar_v1
-from mutacao_2 import mutar_v2
+from crossover_ordenado import crossoverOrdenado
+from crossover_alternativo import crossoverAlternativo
+from mutacao_1 import mutacao1
+from mutacao_2 import mutacao2
 
 
 # Distancia euclidiana entre dois pontos
-def dist_euclid(x1, y1, x2, y2):
+def distanciaEuclidiana(x1, y1, x2, y2):
     return math.sqrt(((x1-x2)**2)+((y1-y2)**2))
 
 # Criar matriz de distancia entre nos
-def cria_matriz_de_distancia(matriz, tamanho):
+def matrizDistancia(matriz, tamanho):
     n_matriz = np.zeros((tamanho, tamanho), dtype=float)
-
-    # Preenche primeira linha e primeira coluna com o numero do nó
     for row in range(0, tamanho):
         for col in range(0, tamanho):
             if (col == 0 and row == 0):
@@ -35,7 +33,7 @@ def cria_matriz_de_distancia(matriz, tamanho):
     # Preenche a n_matriz com as distancias entre os pontos
     for x in range(0, tamanho):
         for i in range(0, tamanho):
-            dist = dist_euclid(
+            dist = distanciaEuclidiana(
                 matriz[x][0], matriz[x][1], matriz[i][0], matriz[i][1])
             n_matriz[x][i] = dist
 
@@ -54,16 +52,14 @@ def gen_pop(N, tamanho):
 
 # Verifica o custo do individuo
 def fitness(individuo, matriz_dist):
-    # Custo ente o primeiro e ultimo nó
     custo = matriz_dist[individuo[0]][individuo[len(individuo)-1]]
 
-    # Percorre o vetor de individuo e calcula a distancia entre nós
     for i in range(len(individuo)-1):
         custo = custo + matriz_dist[individuo[i]][individuo[i+1]]
 
     return custo
 
-# Função auxiliar para computar a FDA (Função de distribuição acumulada)
+# Função auxiliar para computar a função de distribuição acumulada
 def acumular(v):
     acum = 0
     r = []
@@ -73,7 +69,7 @@ def acumular(v):
     return r
 
 # Função de seleção de indivíduo que escolhe com maior probabilidade os indivíduos mais aptos
-def selecionar_individuo(pop, f, matriz_dist):
+def selecionaIndividuo(pop, f, matriz_dist):
     fits = list(map(lambda x: (1/f(x, matriz_dist)), pop))
     soma = functools.reduce(lambda x, y: x + y, fits)
     norms = list(map(lambda x, y: x / y, fits, [soma] * len(pop)))
@@ -84,8 +80,8 @@ def selecionar_individuo(pop, f, matriz_dist):
             break
     return pop[i]
 
-# Função reproduzir
-def reproduzir(pai, mae):
+# Função de reprodução
+def Reproducao(pai, mae):
     filho1 = copy.copy(pai)
     filho2 = copy.copy(mae)
     corte = random.randrange(1, len(filho1))
@@ -100,7 +96,7 @@ def reproduzir(pai, mae):
 
 
 # Pega o indice do menor elemento do vetor
-def argmin(V):
+def menorElemento(V):
     menor = 0
     for i in range(1, len(V)):
         if V[i] < V[menor]:
@@ -110,20 +106,17 @@ def argmin(V):
 # elitismo recebe True ou False para ativar ou desativar respectivamente
 # k é a quantidade de geracoes que o algoritmo é executado sem melhora no fit
 # tx_mutacao é a probabilidade em porcentagem do individuo receber uma mutação
-def algoritmo_genetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, reproducao, tipo_mutacao):
-    # Contador de gerações
+def algoritmoGenetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, reproducao, tipo_mutacao):
     geracao = 0
-
     max_fits = []
     med_fits = []
-    # Faz uma cópia da população inicial
     pop = copy.copy(pop_inicial)
 
     # Calcula o fitness de todos os individuos da população e coloca em uma lista
     fit = list(map(lambda x: f(x, matriz_dist), pop))
 
     # Calcula o individuo mais fit da população inicial
-    mais_fit = pop[argmin(fit)]
+    mais_fit = pop[menorElemento(fit)]
 
     # Armazena a melhor solução encontrada
     melhor_solucao = mais_fit
@@ -132,27 +125,27 @@ def algoritmo_genetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, rep
     while (geracao < k):
         p_nova = []
         for i in range(len(pop)-1):
-            x = selecionar_individuo(pop, f, matriz_dist)
-            y = selecionar_individuo(pop, f, matriz_dist)
-# reproducao é o tipo de reproducao escolhida, crossover_ordernado = ordenado, crossover_alternativo = qualquer coisa diferente de ordenado.
+            x = selecionaIndividuo(pop, f, matriz_dist)
+            y = selecionaIndividuo(pop, f, matriz_dist)
+    # Reproducao é o tipo de reproducao escolhida, crossover_ordernado = ordenado, crossoverAlternativo = qualquer coisa diferente de ordenado.
             if(reproducao == 'ordenado'):
-                novo = crossover_ordenado(x, y)
+                novo = crossoverOrdenado(x, y)
             else:
-                novo = crossover_alternativo(x, y)
+                novo = crossoverAlternativo(x, y)
 
             r = random.randrange(0, len(pop_inicial))
             if r < tx_mutacao:
                 if(tipo_mutacao == 1):
-                    novo = mutar_v1(novo)
+                    novo = mutacao1(novo)
                 else:
-                    novo = mutar_v2(novo)
+                    novo = mutacao2(novo)
 
             p_nova.append(novo)
 
         max_fits.append(min(fit))
         med_fits.append(sum(fit) / len(fit))
         # Armazena o mais fit da população passada
-        mais_fit = pop[argmin(fit)]
+        mais_fit = pop[menorElemento(fit)]
 
         # População atual recebe invidivuos da nova população
         pop = p_nova
@@ -165,7 +158,7 @@ def algoritmo_genetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, rep
         fit = list(map(lambda x: f(x, matriz_dist), pop))
 
         # Mais Fitness da nova população
-        mais_fit = pop[argmin(fit)]
+        mais_fit = pop[menorElemento(fit)]
 
         # Se o mais fitness da nova população é melhor que o mais fitness da antiga população, então a melhor solução é o novo mais fitness
         if f(mais_fit, matriz_dist) < f(melhor_solucao, matriz_dist):

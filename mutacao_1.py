@@ -6,7 +6,7 @@ from random import randint
 import random
 
 # Mutacao de um individuo com 2 genes
-def mutar_v1(individuo):
+def mutacao1(individuo):
     individuo_mutado = copy.copy(individuo)
 
     # Gerar uma lista com 4 numeros aleatorios nao repetidos entre 0 e o tamanho do individuo
