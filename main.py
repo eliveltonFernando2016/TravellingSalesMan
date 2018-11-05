@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     noDimensao = parser(argv[1])
 
-    matriz = cria_matriz_de_distancia(noDimensao[0], noDimensao[1])
+    matriz = matrizDistancia(noDimensao[0], noDimensao[1])
     pop = gen_pop(noDimensao[0], noDimensao[1])
 
     # Definição dos parametros na definicao da funçao
