@@ -14,16 +14,15 @@ from mutacao_1 import mutar_v1
 from mutacao_2 import mutar_v2
 
 
-# DISTANCIA EUCLIDIANA ENTRE DOIS PONTOS
+# Distancia euclidiana entre dois pontos
 def dist_euclid(x1, y1, x2, y2):
     return math.sqrt(((x1-x2)**2)+((y1-y2)**2))
 
-# CRIA MATRIZ DE DISTANCIA ENTRE OS NOS
+# Criar matriz de distancia entre nos
 def cria_matriz_de_distancia(matriz, tamanho):
-    # cria matriz e preenche com 0
     n_matriz = np.zeros((tamanho, tamanho), dtype=float)
 
-    # preenche primeira linha e primeira coluna com o numero do nó
+    # Preenche primeira linha e primeira coluna com o numero do nó
     for row in range(0, tamanho):
         for col in range(0, tamanho):
             if (col == 0 and row == 0):
@@ -33,7 +32,7 @@ def cria_matriz_de_distancia(matriz, tamanho):
             if (row == 0 and col != 0):
                 n_matriz[row][col] = col
 
-    # preenche a n_matriz com as distancias entre os pontos
+    # Preenche a n_matriz com as distancias entre os pontos
     for x in range(0, tamanho):
         for i in range(0, tamanho):
             dist = dist_euclid(
@@ -42,7 +41,7 @@ def cria_matriz_de_distancia(matriz, tamanho):
 
     return n_matriz
 
-# GERA POPULACAO, N = quantidade de genes de cada individuo, tamanho = quantos individuos terá a população
+# Gera a populao, N = quantidade de genes de cada individuo, tamanho = quantos individuos terá a população
 def gen_pop(N, tamanho):
     populacao = []
     individuo = random.sample(range(0, len(N)), tamanho)
@@ -53,12 +52,12 @@ def gen_pop(N, tamanho):
 
     return populacao
 
-# VERIFICA O CUSTO DO INDIVIDUO
+# Verifica o custo do individuo
 def fitness(individuo, matriz_dist):
-    # CUSTO ENTRE O PRIMEIRO NO E O ULTIMO
+    # Custo ente o primeiro e ultimo nó
     custo = matriz_dist[individuo[0]][individuo[len(individuo)-1]]
 
-    # PERCORRE O VETOR INDIVIDUO E CALCULA O CUSTO ENTRE OS NÓS
+    # Percorre o vetor de individuo e calcula a distancia entre nós
     for i in range(len(individuo)-1):
         custo = custo + matriz_dist[individuo[i]][individuo[i+1]]
 
@@ -84,13 +83,6 @@ def selecionar_individuo(pop, f, matriz_dist):
         if r > acum[i]:
             break
     return pop[i]
-
-
-# REPRODUCAO DE UM INDIVIDUO
-
-
-# REPRODUCAO DE UM INDIVIDUO
-
 
 # Função reproduzir
 def reproduzir(pai, mae):
@@ -118,7 +110,6 @@ def argmin(V):
 # elitismo recebe True ou False para ativar ou desativar respectivamente
 # k é a quantidade de geracoes que o algoritmo é executado sem melhora no fit
 # tx_mutacao é a probabilidade em porcentagem do individuo receber uma mutação
-# reproducao é o tipo de reproducao escolhida, crossover_ordernado = ordenado, crossover_alternativo = qualquer coisa diferente de ordenado.
 def algoritmo_genetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, reproducao, tipo_mutacao):
     # Contador de gerações
     geracao = 0
@@ -143,7 +134,7 @@ def algoritmo_genetico(pop_inicial, f, matriz_dist, k, tx_mutacao, elitismo, rep
         for i in range(len(pop)-1):
             x = selecionar_individuo(pop, f, matriz_dist)
             y = selecionar_individuo(pop, f, matriz_dist)
-
+# reproducao é o tipo de reproducao escolhida, crossover_ordernado = ordenado, crossover_alternativo = qualquer coisa diferente de ordenado.
             if(reproducao == 'ordenado'):
                 novo = crossover_ordenado(x, y)
             else:

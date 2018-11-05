@@ -5,7 +5,7 @@ import copy
 from random import randint
 import random
 
-# MUTACAO DE UM INDIVIDUO COM 2 GENES
+# Mutacao de um individuo com 2 genes
 def mutar_v1(individuo):
     individuo_mutado = copy.copy(individuo)
 

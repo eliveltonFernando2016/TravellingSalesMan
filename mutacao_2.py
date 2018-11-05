@@ -5,9 +5,9 @@ import copy
 from random import randint
 import random
 
+# Mutacao de um individuo com 1 genes
 def mutar_v2(individuo):
     individuo_mutado = copy.copy(individuo)
-    # Return a random integer N such that a <= N <= b
     x = random.randint(0, len(individuo_mutado)-1)
     y = random.randint(0, len(individuo_mutado)-1)
 
